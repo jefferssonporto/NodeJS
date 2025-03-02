@@ -1,0 +1,59 @@
+Scripts / Atalhos {
+    crlt + L Limpar a tela
+    .exit - sair do programa
+    typeof - mostra qual o tipo primitivo
+    variavel.toFixed(2) - Declara a quantidade de casas do numero dentro do parenteses, no caso do exemplo seriam 2 casas a mais.
+    variavel.toFixed(2).replace('.', ',') - Troca o ponto por vírgula
+    n1.toLocaleString('pt-BR', {Style: 'currency', currency: 'BRL'}) - O valor ficar em Real brasileiro, se trocar a ultima abreviação por USD fica em Dolar ou EUR fica em Euro.
+}
+
+Escrever na tela - console.log(` ${} `)
+
+Mostrar a data/hora/dia atuais:
+var agora = new Date ()
+var hora = agora.getHours() / // agora.getDay .get...  variavel.GETopção
+
+mkdir - criar o nome
+cd + nome - abrir o nome do arquivo
+
+yarn init -y* cria o  arquivo - package.json 
+Code . - abre o arquivo com VS
+
+
+Esqueleto básico do express
+
+const express = require("express");
+
+const server = express();
+
+server.listen(3000); // Porta que eu quero trabalhar
+// Normalmente utiliza-se as portas 3000 / 5000 / 8000 / 8080
+
+
+Variavel REQ - Requisição
+Variavel RES - Resposta 
+res.send() - resposta 
+
+
+
+Esqueleto básico do express : 
+
+const express = require("express");
+
+const server = express();
+
+
+
+server.listen(3000); // Porta que eu quero trabalhar
+// Normalmente utiliza-se as portas 3000 / 5000 / 8000 / 8080
+
+
+Variavel REQ - Resquest ou Requisição
+Variavel RES - Resposta 
+res.send() - resposta 
+
+Query Params = coloca o parametro e dps o valor dele, primeiro com "?" e os próximo com "&", São opcionais
+?nome = jefferson&idade=28 
+
+Route Params - parametros de rota, são obrigatorios, estão integrados a rota e a rota vai responder ou não se tiver aquele parametro
+/hello/:nomedoparametro
