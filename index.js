@@ -12,7 +12,7 @@ server.get("/hello", (req, res) => { //Sempre que bater na rota hello e ela for 
 
     return res.json({ 
         title: "Hello World",
-        message: `Olá ${nome} tudo bem !?`,
+        message: `Olá ${nome} tudo bem  !?`,
         idade: idade
     });     // Resposta          
 });  
@@ -23,7 +23,7 @@ server.get("/hello/:nome", (req,res) => {
 
     return res.json({ 
         title: "Hello World",
-        message: `Olá ${nome} tudo bem !?`,
+        message: `Olá ${nome} tudo bem  !?`,
         
     });     // Resposta     
 });
