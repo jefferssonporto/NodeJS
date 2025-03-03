@@ -28,5 +28,5 @@ server.get("/hello/:nome", (req,res) => {
     });     // Resposta     
 });
 
-server.listen(3000); // Porta que eu quero trabalhar
+server.listen(); // Porta que eu quero trabalhar
 // Normalmente utiliza-se as portas 3000  5000  8000  8080
