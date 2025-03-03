@@ -1,1 +1,1 @@
-Desenvolvendo em NodeJS, Servidores ExpressJS, parâmetros de Query e Route.
+Desenvolvendo em NodeJS, Json, API REST, Servidores ExpressJS, parâmetros de Query e Route.
