@@ -57,3 +57,34 @@ Query Params = coloca o parametro e dps o valor dele, primeiro com "?" e os pró
 
 Route Params - parametros de rota, são obrigatorios, estão integrados a rota e a rota vai responder ou não se tiver aquele parametro
 /hello/:nomedoparametro
+
+Semantica:
+Qualquer error começados em 2xx - Indica que a requisição foi processada com sucesso.
+Qualquer error começados em 3xx- indica ao cliente uma ação a ser tomada para que a requisição possa ser concluída.
+Qualquer error começados em 4xx - indica erros na requisição causados pelo cliente.
+Qualquer error começados em 5xx - indica que a requisição não foi concluida devido a erros ocorridos no servidor
+
+GET - http://api.com/customers - Lista todos os recursos.
+GET -  http://api.com/customers/1 - Lista um recurso especifico.
+POST - http://api.com/customers - Cria um novo Recurso
+PUT - http://api.com/customers/1 - Atualiza um recurso existente.
+DELETE - http://api.com/customers/1 - Exclui um Recurso existente
+
+
+
+Códigos  /   DESCRIÇÃO   / QUANDO UTILIZAR 
+
+200 - OK  - Em requisições GET, PUT e DELETE executadas com sucesso.
+201 - CREATED - Em requisições POST, quando um novo recurso é criado com sucesso.
+206 - Partial Content - Em requisições GET que devolvem apenas uma parte do conteúdo de um recurso.
+302 - Found - Em requisições feitas às URIs antigas, foram alteradas
+400 - Bad Request - Em requisições cujas informações enviadas pelo cliente sejam inválidas
+401 - Unauthorized - Em requisições que exigem autenticação, mas seus dados não foram fornecidos.
+403 - Forbidden - Em requisições que o cliente não tem permissão de acesso ao recurso solicitado.
+404 - Not Found - Em requisições cuja a URI de um determinado recurso seja inválida
+405 - Method Not Allowed - Em requisições cujo o método HTTP indicado pelo cliente não seja suportado
+406 - Not Acceptable - Em requisições cujo formato da representação do recurso requisitado pelo cliente não seja suportado.
+415 - Unsupported Media Type - Em requisições cujo formato da representação do recurso enviado pelo cliente não seja suportado.
+429 - Too Many Request - No caso do servidor ter um limite de requisições que pode ser feita por um cliente, e ele já tiver sido atingindo.
+500 - Internal Server Error - Em requisições onde um erro tenha ocorrido no servidor.
+503 - Service Unavailable - Em requisições feitas a um serviço que está fora do ar, para manutenção ou sobrecarga.
