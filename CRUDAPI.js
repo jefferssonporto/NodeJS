@@ -31,4 +31,21 @@ server.post("/customers", (req, res) => {
     return res.status(201).json(newCustomer); //MAnipulação de Array com retorno em 201
 });
 
+
+// Update de customers existentes utilizando FindIndex e utilizando calculo de status
+server.put("/customers/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const {name, site } = req.body;
+
+    const index = customers.findIndex(item => item.id === id);
+    const status = index >= 0 ? 200 : 404; //se o index for maior ou igual a 0, status é 200, se não 404
+    
+    if(index >= 0) {   //Se o index é maior ou igual a 0 vou alterar o Array
+        customers[index] = {id: parseInt(id), name, site};
+    }
+
+    return res.status(status).json(customers[index]); //resposta para o servirdor
+
+});
+
 server.listen(3000);
