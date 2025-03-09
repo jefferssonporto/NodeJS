@@ -48,4 +48,18 @@ server.put("/customers/:id", (req, res) => {
 
 });
 
+//Exclusão de Registros
+server.delete("/customers/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const index = customers.findIndex(item => item.id === id); //Receber o index
+    const status = index >= 0 ? 200 : 404; //Calcular o Status
+
+    if(index >= 0) { 
+        customers.splice(index, 1); //Splice vai remover um objeto em uma posição especifica, no caso na quantidade 1, quando localizar o Index
+    }
+
+    return res.status(status).json(); //Json vazio pq não vai retornar o próprio customer pq nesse caso ja foi deletado
+});
+
+
 server.listen(3000);
