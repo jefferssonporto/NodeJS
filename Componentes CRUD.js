@@ -1,3 +1,5 @@
+const { json } = require("express");
+
 const express = required("express");
 const server = express();
 
@@ -13,10 +15,14 @@ server.get("/customers", (req, res) => {
     return res.json(customers);
 });
 
+//SHOW     
 server.get("/customers/:id", (req, res) => {
     const id = parseInt(req.params.id);
     const customer = customers.find(item => item.id == id);
-    const status = customer ? 200 : 404; //se retorna 200 ou 404, no caso retornou 404  
+    const status = customer ? 200 : 404; //se retorna 200 ou 404, no caso retornou 404 
+    
+    //Nome da Rota GET, e a própria rota, e a varável ou a mensagem que vc quer mostar.
+    console.debug("GET :: /customers/:id ", json.stringfy(customer)); // stringfy - vai transformar um objeto num formato json
 
     return res.status(status).json(customer);
 });

@@ -12,7 +12,7 @@
     "nodemon": "^2.0.1"
 },
 "scripts": {
-  "dev": "nodemon index.js"
+  "dev": "nodemon Componentes CRUD.js"
 }
 
 

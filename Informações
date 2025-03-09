@@ -7,7 +7,11 @@ Scripts / Atalhos {
     n1.toLocaleString('pt-BR', {Style: 'currency', currency: 'BRL'}) - O valor ficar em Real brasileiro, se trocar a ultima abreviação por USD fica em Dolar ou EUR fica em Euro.
 }
 
-Escrever na tela - console.log(` ${} `)
+MENSAGENS COM CONSOLE.
+console.log(` ${} `) - Mostrar uma mensagem informativa.
+console.debug() - Mostrar somente detalhes de um desenvolvimento.
+console.warn() - Um tipo de mensagem que merece um pouco mais de autenção.
+console.error() - Um tipo de mensagem preocupante, que está acontecendo alguma coisa problematica dentro da aplicação.
 
 Mostrar a data/hora/dia atuais:
 var agora = new Date ()
@@ -88,3 +92,6 @@ Códigos  /   DESCRIÇÃO   / QUANDO UTILIZAR
 429 - Too Many Request - No caso do servidor ter um limite de requisições que pode ser feita por um cliente, e ele já tiver sido atingindo.
 500 - Internal Server Error - Em requisições onde um erro tenha ocorrido no servidor.
 503 - Service Unavailable - Em requisições feitas a um serviço que está fora do ar, para manutenção ou sobrecarga.
+
+Stringfy - vai transformar um objeto num formato json
+Splice vai remover um objeto em uma posição especifica, no caso na quantidade 1, quando localizar o Index
