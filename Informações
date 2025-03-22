@@ -23,6 +23,9 @@ cd + nome - abrir o nome do arquivo
 yarn init -y* cria o  arquivo - package.json 
 Code . - abre o arquivo com VS
 
+Executar o Sucrase:
+yarn add sucrase -D
+npx sucrase-node ./src/server.js 
 
 Esqueleto básico do express
 
