@@ -8,7 +8,7 @@ server.use(express.json());
 let customers = [
     {id: 1, name: "Dev Jefferson", site: "https://www.linkedin.com/in/jefferson-de-oliveira-porto-869067277/" },
     {id: 2, name: "Google", site:  "https://www.google.com/"},
-    {id: 3, name: "UOL", site: "https://www.uol.com.br/"}
+    {id: 3, name: "Instagram", site: "https://www.instagram.com/jeffersson_porto/"}
 ]; //Array
 
 server.get("/customers", (req, res) => {
