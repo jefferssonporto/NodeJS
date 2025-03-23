@@ -51,7 +51,7 @@ class CustomersController {
     }
 
     //Exclui um Customer
-    destroy(req, res)  {
+    destroy(req, res) {
         server.delete("/customers/:id", (req, res) => {
             const id = parseInt(req.params.id);
             const index = customers.findIndex(item => item.id === id); 

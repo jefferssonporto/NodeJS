@@ -23,9 +23,13 @@ cd + nome - abrir o nome do arquivo
 yarn init -y* cria o  arquivo - package.json 
 Code . - abre o arquivo com VS
 
-Executar o Sucrase:
+instalar e Executar o Sucrase:
 yarn add sucrase -D
 npx sucrase-node ./src/server.js 
+
+instalar e executar o Eslint:
+yarn add eslint -D
+yarn eslint --init
 
 Esqueleto básico do express
 
