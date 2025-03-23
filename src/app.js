@@ -2,10 +2,9 @@
 import express from "express";
 import routes from "./routes";
 
-
 //As classes onde vai conter a lógica
 class App {
-    constructor(){
+    constructor() {
         this.server = express();
         this.middlewares();
         this.routes();
@@ -22,4 +21,3 @@ class App {
 
 //Tudo que eu quero exportar
 export default new App().server;
-

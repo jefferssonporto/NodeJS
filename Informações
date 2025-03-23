@@ -31,6 +31,17 @@ instalar e executar o Eslint:
 yarn add eslint -D
 yarn eslint --init
 
+
+Prettier - Garante o embezamento do Códigos
+instar o Prettier:
+yarn add prettier eslint-config-prettier eslint-plugin-prettier -D
+
+Identifição de erros no código:
+yarn eslint --fix src --ext .js
+
+limpar cache do yarn: 
+yarn cache clean
+
 Esqueleto básico do express
 
 const express = require("express");
@@ -103,3 +114,5 @@ Códigos  /   DESCRIÇÃO   / QUANDO UTILIZAR
 Stringfy - vai transformar um objeto num formato json
 Splice vai remover um objeto em uma posição especifica, no caso na quantidade 1, quando localizar o Index
 Middlewares - camada que voce adiciona entre o express e a sua aplicação, realiza uma interceptação e faz uma lógica em função dessa interceptação, podendo aprovar que a requisição passe para a proxima etapa ou não.
+
+
