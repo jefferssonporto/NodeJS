@@ -5,3 +5,15 @@ Depois de uma migration é enviada (git ou produção) nunca mais pode ser desfe
 Cada migration manipula uma tabela.
 
 UP - Ação de UP, normalmente é criação de uma tabela.
+
+Instalar o Sequelize:
+yarn add sequelize
+
+Sequelize como dependencia de desenvolvimento (programa de desenvolvimento para ajudar em alguns módulos):
+yarn add sequelize-cli -D
+
+Instalar a biblioteca do PostgreSQL:
+yarn add pg pg-hstore
+
+resolve - compatiliza o formato de diretórios do Windows, linux com Mac para que não tenha problemas para rodar o programas em outros computadores.
+seeders - Arquivo que será a semente inicial da tabela
