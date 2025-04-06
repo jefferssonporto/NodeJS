@@ -1,0 +1,7 @@
+ORM - Abstração de banco de dados e tabelas tornam-se classes.
+
+Toda Migration pode ser desfeita
+Depois de uma migration é enviada (git ou produção) nunca mais pode ser desfeita.
+Cada migration manipula uma tabela.
+
+UP - Ação de UP, normalmente é criação de uma tabela.

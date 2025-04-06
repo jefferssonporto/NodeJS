@@ -1,0 +1,41 @@
+//Criação de Tabela 
+Customer.create({
+    name:
+    "Jefferson Porto",
+    email: 
+    "jeffersson_porto@hotmail.com"
+});
+
+//Busca com o SELECT utiliza o findOne
+Customer.findOne({
+    where: {
+        email: "jeffersson_porto@hotmail.com"
+    }
+});
+
+//MIGRATION com Sequelize EXEMPLO
+module.exports = {
+    up: (queryInterface, Sequelize) => {                          //UP (CRIAÇÃO).
+        return queryInterface.createtable("customers", {
+            id: {
+                allowNull: false, 
+                autoIncrement: true,
+                primaryKey: true,
+                type: Sequelize.INTEGER
+            },
+            name: {
+                allowNull: false,
+                type: Sequelize.STRING                           //CAMPOS ID, NAME E EMAIL
+            },
+            email: {
+                allowNull: false,
+                unique: true,
+                type: Sequelize.STRING
+            }
+        })
+    },                                                
+    down: (queryInterface, Sequelize) => {                    //DOWN (DELETAR)
+        return queryInterface.dropTable("customers");     
+    }
+}
+
