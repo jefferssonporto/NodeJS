@@ -2,7 +2,7 @@
 
 import Sequelize, { Model } from "sequelize";
 
-class Customer extends Model {
+class Contact extends Model {
     static init (sequelize) {           //Criação do método init, que precisa receer o objeto sequelize
         super.init(                     //recebe SUPER, Pra chamar o Init da classe Model, já que foi estendida (extends)
             {                       //Definição dos campos Model
@@ -16,8 +16,8 @@ class Customer extends Model {
      );
     }
     static associate(models) {
-        this.hasMany(models.Contact);  //usado para definir um relacionamento de um-para-muitos entre modelos (tabelas).
+        this.belongsTo(models.Customer, {foreignKey: "customer_id"});  //Relacionamentos muito pra um,  é o “par” do hasMany.
     }
 }
 
-export default Customer;
+export default Contact;
