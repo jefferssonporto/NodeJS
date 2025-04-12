@@ -17,3 +17,12 @@ yarn add pg pg-hstore
 
 resolve - compatiliza o formato de diretórios do Windows, linux com Mac para que não tenha problemas para rodar o programas em outros computadores.
 seeders - Arquivo que será a semente inicial da tabela
+
+terminal: criação da tabela custormes :
+$ yarn sequelize migration:create --name=create-customers
+
+terminal: Processo de migração da tabela:
+yarn sequelize db:migrate
+
+Terminal: desfaz todas as migrations:
+yarn sequelize db:migrate:undo:all
