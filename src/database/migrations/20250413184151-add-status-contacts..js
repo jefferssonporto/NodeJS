@@ -1,7 +1,7 @@
 
 module.exports = {
     up: (queryInterface, Sequelize) => {
-     return queryInterface.addColumn("contact", "status", { 
+     return queryInterface.addColumn("contacts.", "status", { 
       type: Sequelize.ENUM("ACTIVE", "ARCHIVED"),
       allowNull: false,
       defaultValue: "ACTIVE",
@@ -9,7 +9,7 @@ module.exports = {
    },
     down: queryInterface => {
      return queryInterface.sequelize.transaction(async transaction => {
-        await queryInterface.removeColumn("contact", "status", {transaction})
+        await queryInterface.removeColumn("contacts.", "status", {transaction})
         await queryInterface.sequelize.query("DROP TYPE enum_customers_status", {transaction,   //excluise pro Postgres
           });
         });
