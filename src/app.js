@@ -2,6 +2,9 @@
 import express from "express";
 import routes from "./routes";
 
+import "./database";
+
+
 //As classes onde vai conter a lógica
 class App {
     constructor() {

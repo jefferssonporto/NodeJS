@@ -1,4 +1,7 @@
-let customers = [
+
+import Customer from "../models/Custormer";
+
+const customers = [
     {
         id: 1,
         name: "Dev Jefferson",
@@ -14,8 +17,12 @@ let customers = [
 
 class CustomersController {
     //Listagem dos resgistros (Customer)
-    index(_req, res) {
-        return res.json(customers);
+    async index(_req, res) {
+        const data = await Customer.findAll({        //extende a classe models
+            limit: 1000,
+        }); 
+
+        return res.json(data);
     }
 
     //Recupera um registro ou recurso (Customer)
