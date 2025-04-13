@@ -21,8 +21,14 @@ seeders - Arquivo que será a semente inicial da tabela
 terminal: criação da tabela custormes :
 $ yarn sequelize migration:create --name=create-customers
 
+terminal: Adicionar mais uma tabela  :
+yarn sequelize migration:create --name add-status-customers
+
 terminal: Processo de migração da tabela:
 yarn sequelize db:migrate
 
 Terminal: desfaz todas as migrations:
 yarn sequelize db:migrate:undo:all
+
+Terminal: desfaz a ultima migrations:
+yarn sequelize db:migrate:undo
