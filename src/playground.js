@@ -7,8 +7,46 @@ import Contact from "./app/models/Contact";
 
 
 class Playground {
-
-     //INCLUDE: Responsavel por fazer o INNERJOIN
+    static async play() {       
+        //Order By        
+        const customers = await Customer.findAll({ 
+            include: [
+                {
+                    model: Contact,  
+                    where: {         
+                        status: "ACTIVE", 
+                    },                                          
+                   order: [["name", "DESC"], ["createAt"]], //Multipla seção
+                },                                      //DESC ao contrario, 2 Arrays o primeiro seleção do campo, segundo ordenação do campo
+            ],      
+     });
+     console.log(JSON.stringify(customers, null, 2)); 
+     Playground.play(); 
+     
+     /* Mesmo resultado do InnerJoin abaixo
+     static async play() {              
+        const customers = await Customer.findAll({ 
+            include: [
+                {
+                    model: Contact,     
+                },
+            ],      
+            where: {         
+            [Op.or]: {                      
+              status:  {
+                    [Op.in]: ["ACTIVE", "ARCHIVED"],         
+            },   
+            name: {
+                [Op.like]: "Dev%",
+            },
+        },
+            createdAt: {
+                [Op.between]: [new Date(2025, 1,1),new Date(2025, 3, 4) ], 
+             },
+        },
+     });
+     console.log(JSON.stringify(customers, null, 2)); 
+      /* INCLUDE: Responsavel por fazer o INNERJOIN
 
      static async play() {              
         const customers = await Customer.findAll({ 
@@ -35,7 +73,7 @@ class Playground {
              },
         },
      });
-     console.log(JSON.stringify(customers, null, 2)); 
+     console.log(JSON.stringify(customers, null, 2)); */
 
      
      /* Mesmo resultado do InnerJoin abaixo
@@ -153,4 +191,3 @@ class Playground {
     }
 }
 
-Playground.play(); 
