@@ -14,13 +14,21 @@ const models = [Customer, Contact, User];       //models
 class Database {
     constructor() {
         this.connection = new Sequelize(config);
-
         this.init();
+        this.associate();
     }
 
     init() {                //Chamada do Init de cada módel
         models.forEach(model => model.init(this.connection));
-    }          
+    }    
+    
+    associate() {
+        models.forEach(model => {
+            if (model.associate) {
+                model.associate (this.connection.models);
+            }
+        });
+    }
  }
 
 export default Database;
