@@ -6,9 +6,41 @@ import Customer from "./app/models/Customer";
 import Contact from "./app/models/Contact";
 
 
-class Playground {
-    static async play() {       
-        //Order By        
+class Playground {       
+    static async play() {     
+
+               //LIMITANDO A BUSCA  
+
+        const customers = await Customer.findAll({ 
+            include: [
+                {
+                    model: Contact,     
+                },
+            ],      
+            where: {         
+            [Op.or]: {                      
+              status:  {
+                    [Op.in]: ["ACTIVE", "ARCHIVED"],         
+            },   
+            name: {
+                [Op.like]: "Dev%",
+            },
+        },
+            createdAt: {
+                [Op.between]: [new Date(2025, 1,1),new Date(2025, 3, 4) ], 
+             },
+        },
+        order: [["name", "DESC"], ["createAt"]],
+        limit:2,        //LIMITE que eu quero 
+        offset: 2 * 1 - 2, //LIMIT * PAGE - LIMIT. Limite que é a quantiade que eu quero, vezes a pagina, menos o limite
+     });
+     console.log(JSON.stringify(customers, null, 2)); 
+       
+       
+       
+       
+        /* Order By      
+
         const customers = await Customer.findAll({ 
             include: [
                 {
@@ -21,7 +53,7 @@ class Playground {
             ],      
      });
      console.log(JSON.stringify(customers, null, 2)); 
-     Playground.play(); 
+     Playground.play(); */
      
      /* Mesmo resultado do InnerJoin abaixo
      static async play() {              
@@ -46,6 +78,8 @@ class Playground {
         },
      });
      console.log(JSON.stringify(customers, null, 2)); 
+
+
       /* INCLUDE: Responsavel por fazer o INNERJOIN
 
      static async play() {              
