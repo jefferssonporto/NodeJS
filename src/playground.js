@@ -6,9 +6,66 @@ import Customer from "./app/models/Customer";
 import Contact from "./app/models/Contact";
 
 
-class Playground {       
-    static async play() {     
 
+// Funções de agregação: count, min, max, avg
+
+
+//Retorna o SELECT de MIN onde os Customers tem ACTIVE.
+  class Playground {       
+    static async play() {   
+        const customers = await Customer.min("createdAt",{
+            where: {status:"ACTIVE"},
+        });
+        console.log(JSON.stringify(customers, null, 2));
+
+//Retorna o SELECT de sum onde os Customers tem ACTIVE, teria que ter um numero, como idade, saldo..
+ /* class Playground {       
+    static async play() {   
+        const customers = await Customer.sum("createdAt",{
+            where: {status:"ACTIVE"},
+        });  */
+        
+
+//Retorna o SELECT de Maximo onde os Customers tem ACTIVE
+  /*class Playground {       
+    static async play() {   
+        const customers = await Customer.max("createdAt",{
+            where: {status:"ACTIVE"},
+        });  */
+        
+/*
+               //LIMITANDO A BUSCA  
+
+        const customers = await Customer.count ({  //Alterar essa parte para count, min, max..
+            include: [
+                {
+                    model: Contact,     
+                },
+            ],      
+            where: {         
+            [Op.or]: {                      
+              status:  {
+                    [Op.in]: ["ACTIVE", "ARCHIVED"],         
+            },   
+            name: {
+                [Op.like]: "Dev%",
+            },
+        },
+            createdAt: {
+                [Op.between]: [new Date(2025, 1,1),new Date(2025, 3, 4) ], 
+             },
+        },
+        order: [["name", "DESC"], ["createAt"]],
+        limit:2,        //LIMITE que eu quero 
+        offset: 2 * 1 - 2, //LIMIT * PAGE - LIMIT. Limite que é a quantiade que eu quero, vezes a pagina, menos o limite
+     });
+     console.log(JSON.stringify(customers, null, 2));
+*/
+
+ /* Op.Or / Op.like / Op.between
+ class Playground {       
+    static async play() {     
+        
                //LIMITANDO A BUSCA  
 
         const customers = await Customer.findAll({ 
@@ -35,7 +92,7 @@ class Playground {
         offset: 2 * 1 - 2, //LIMIT * PAGE - LIMIT. Limite que é a quantiade que eu quero, vezes a pagina, menos o limite
      });
      console.log(JSON.stringify(customers, null, 2)); 
-       
+       */
        
        
        
