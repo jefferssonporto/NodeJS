@@ -3,20 +3,63 @@ import {Op} from "sequelize";  //Op de Operação
 import "./database";
 
 import Customer from "./app/models/Customer";
-import Contact from "./app/models/Contact";
 
+//Usando o Where com Sequelize SELECT* FROM customer WHERE
+class Playground {       
+    static async play() {   
+        // const customer = await Customer.findByPk(1);     Basta somente colocar o ID, no caso "1".
+        
+
+       /* const customer = await Customer.findOne({         //FindOne busca a primeira opção
+            attributes: {exclude: ["status", "id"]},
+        });
+        */
+
+       /*const customers = await Customer.findAll({
+            attributes: {exclude: ["status"]},
+        }); */
+
+        const customers = await Customer.findAll({
+           // attributes: {exclude: ["status"]},
+            where: {
+                [Op.or] :{      //Para isolar uma opção, uma ou outra, no caso status ou name
+                status: {
+                        [Op.eq]: ["ACTIVE", "ARCHIVED"],  //[Op.ne] o inverso, tudo que não é ativo
+                },          
+               name: {
+                  [Op.like]: "Dev%",
+               }, 
+            },
+              /* createdAt: {
+                [Op.gte]: new Date(),      //OP.GTE Maior igual que..,  OP.LTE MENOR IGUAL QUE A DATA ATUAL
+               }                                
+            },   */
+            
+            createdAt: {
+                [Op.between]: [new Date(), new Date()],   //OP.BETWEEN Intervalos de datas dentro de um Array
+               }                               
+            },        
+        });
+         
+        console.log(JSON.stringify(customers, null, 2));
+    } 
+}
 
 
 // Funções de agregação: count, min, max, avg
 
 
 //Retorna o SELECT de MIN onde os Customers tem ACTIVE.
-  class Playground {       
+ /* class Playground {       
     static async play() {   
         const customers = await Customer.min("createdAt",{
             where: {status:"ACTIVE"},
         });
         console.log(JSON.stringify(customers, null, 2));
+
+    }
+}
+    */
 
 //Retorna o SELECT de sum onde os Customers tem ACTIVE, teria que ter um numero, como idade, saldo..
  /* class Playground {       
@@ -279,6 +322,5 @@ import Contact from "./app/models/Contact";
 
        */
       
-    }
-}
+ 
 
