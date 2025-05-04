@@ -4,10 +4,17 @@ import "./database";
 
 import Customer from "./app/models/Customer";
 
-//Utilizando o Scopo
+//INSERT
 class Playground {       
     static async play() {   
-    
+        const customer = await Customer.create({
+            name: "megamega", email: "faq@megamega.com.br"
+        });   
+       //  console.log(JSON.stringify(customers2, null, 2));
+     } 
+ }
+    Playground.play();
+
         /*const customers = await Customer.scope({
         method: ["created", (new Date(2025,12,1))]
     }).findAll(); 
@@ -16,7 +23,7 @@ class Playground {
 
        const customers = await Customer.scope(["active", "Jefferson"]).findAll(); //Dando Where nos dois Scopos, não dá pra manipular com dois scopos com mesmo nome em campos diferentes.
        */
-
+/*
         //Misturando 2 scopos
        const customers1 = await Customer.scope(["active", "Jefferson"]).findAll();
        console.log(JSON.stringify(customers1, null, 2));
@@ -29,6 +36,7 @@ class Playground {
         console.log(JSON.stringify(customers2, null, 2));
     } 
 }
+    /*
 
 
 
