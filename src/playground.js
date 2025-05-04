@@ -5,7 +5,17 @@ import "./database";
 import Customer from "./app/models/Customer";
 
 
+//Exclusão(delete)
+class Playground {       
+    static async play() {   
+        const customer = await Customer.findByPk(1);   //Pelo ID
+        customer.destroy();
+     } 
+ }
+    Playground.play();
 
+
+/*
 //UPDATE 
 class Playground {       
     static async play() {   
@@ -17,7 +27,7 @@ class Playground {
      } 
  }
     Playground.play();
-
+*/
 
 //INSERT
 /* class Playground {       
