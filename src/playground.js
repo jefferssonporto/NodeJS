@@ -4,8 +4,23 @@ import "./database";
 
 import Customer from "./app/models/Customer";
 
-//INSERT
+
+
+//UPDATE 
 class Playground {       
+    static async play() {   
+        const customer = await Customer.findByPk(1);   
+       console.log("Antes: ", JSON.stringify(customers2, null, 2));
+
+       const newCustomer = await customer.update({status: "ARCHIVED"});
+       console.log("Depois: ", JSON.stringify(customers2, null, 2));
+     } 
+ }
+    Playground.play();
+
+
+//INSERT
+/* class Playground {       
     static async play() {   
         const customer = await Customer.create({
             name: "megamega", email: "faq@megamega.com.br"
@@ -14,16 +29,22 @@ class Playground {
      } 
  }
     Playground.play();
+*/
 
-        /*const customers = await Customer.scope({
+
+
+ //UTILIZANDO SCOPOS:
+
+ /* class Playground {       
+    static async play() {  
+        const customers = await Customer.scope({
         method: ["created", (new Date(2025,12,1))]
     }).findAll(); 
        // const customers = await Customer.scope("active").findAll(); Vai retornar todos os Scopos Ativos
         
 
        const customers = await Customer.scope(["active", "Jefferson"]).findAll(); //Dando Where nos dois Scopos, não dá pra manipular com dois scopos com mesmo nome em campos diferentes.
-       */
-/*
+
         //Misturando 2 scopos
        const customers1 = await Customer.scope(["active", "Jefferson"]).findAll();
        console.log(JSON.stringify(customers1, null, 2));
@@ -36,7 +57,8 @@ class Playground {
         console.log(JSON.stringify(customers2, null, 2));
     } 
 }
-    /*
+     Playground.play();
+    */
 
 
 
