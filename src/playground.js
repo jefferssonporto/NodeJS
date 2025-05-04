@@ -4,8 +4,37 @@ import "./database";
 
 import Customer from "./app/models/Customer";
 
-//Usando o Where com Sequelize SELECT* FROM customer WHERE
+//Utilizando o Scopo
 class Playground {       
+    static async play() {   
+    
+        /*const customers = await Customer.scope({
+        method: ["created", (new Date(2025,12,1))]
+    }).findAll(); 
+       // const customers = await Customer.scope("active").findAll(); Vai retornar todos os Scopos Ativos
+        
+
+       const customers = await Customer.scope(["active", "Jefferson"]).findAll(); //Dando Where nos dois Scopos, não dá pra manipular com dois scopos com mesmo nome em campos diferentes.
+       */
+
+        //Misturando 2 scopos
+       const customers1 = await Customer.scope(["active", "Jefferson"]).findAll();
+       console.log(JSON.stringify(customers1, null, 2));
+
+       const customers2 = await Customer.scope([            //Precisa estar dentro de um Array
+        ["active"], 
+       { method: ["created", new Date(2025,12,1)]}
+       ]).findAll(); 
+       
+        console.log(JSON.stringify(customers2, null, 2));
+    } 
+}
+
+
+
+
+//Usando o Where com Sequelize SELECT* FROM customer WHERE
+/* class Playground {       
     static async play() {   
         // const customer = await Customer.findByPk(1);     Basta somente colocar o ID, no caso "1".
         
@@ -19,32 +48,22 @@ class Playground {
             attributes: {exclude: ["status"]},
         }); */
 
-        const customers = await Customer.findAll({
+       /* const customers = await Customer.findAll({
            // attributes: {exclude: ["status"]},
             where: {
                 [Op.or] :{      //Para isolar uma opção, uma ou outra, no caso status ou name
                 status: {
                         [Op.eq]: ["ACTIVE", "ARCHIVED"],  //[Op.ne] o inverso, tudo que não é ativo
                 },          
-               name: {
-                  [Op.like]: "Dev%",
-               }, 
             },
               /* createdAt: {
                 [Op.gte]: new Date(),      //OP.GTE Maior igual que..,  OP.LTE MENOR IGUAL QUE A DATA ATUAL
                }                                
-            },   */
-            
-            createdAt: {
-                [Op.between]: [new Date(), new Date()],   //OP.BETWEEN Intervalos de datas dentro de um Array
-               }                               
-            },        
-        });
-         
+            },   
         console.log(JSON.stringify(customers, null, 2));
     } 
 }
-
+*/
 
 // Funções de agregação: count, min, max, avg
 
@@ -95,7 +114,7 @@ class Playground {
             },
         },
             createdAt: {
-                [Op.between]: [new Date(2025, 1,1),new Date(2025, 3, 4) ], 
+                [Op.between]: [new Date(2025, 1,1),new Date(2025, 3, 4) ],   //OP.BETWEEN Intervalos de datas dentro de um Array
              },
         },
         order: [["name", "DESC"], ["createAt"]],

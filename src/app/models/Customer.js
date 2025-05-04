@@ -1,6 +1,6 @@
 //Classe responsável pela manipulação da Tabela do Banco de Dados
 
-import Sequelize, { Model } from "sequelize";
+import Sequelize, { Model, Op } from "sequelize";
 
 class Customer extends Model {
     static init (sequelize) {           //Criação do método init, que precisa receer o objeto sequelize
@@ -11,6 +11,30 @@ class Customer extends Model {
             status: Sequelize.ENUM("ACTIVE", "ARCHIVED"),    
         },
         {
+            scopes: {    //Criando um Scopo
+                active: {
+                    where: {
+                        status: "ACTIVE"
+                    },
+                    order: ["createdAt"],
+                },
+
+                Jefferson: {
+                    where: {
+                        name: "Dev Jefferson"
+                    },
+                },
+
+               created(date){   //Passar parametros no scopo, como se fosse uma função
+                return {
+                    where: {
+                        createdAt:{
+                            [Op.gte]:  date,
+                        }
+                    }
+                }
+               } 
+            },
             sequelize,
         }
      );
