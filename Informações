@@ -116,3 +116,5 @@ Splice vai remover um objeto em uma posição especifica, no caso na quantidade 
 Middlewares - camada que voce adiciona entre o express e a sua aplicação, realiza uma interceptação e faz uma lógica em função dessa interceptação, podendo aprovar que a requisição passe para a proxima etapa ou não.
 
 Scopos - Consultas que você já deixa pré programadas com nomes.
+
+Hooks -  hooks para agir antes ou depois de ações como create, update, destroy, etc.

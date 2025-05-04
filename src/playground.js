@@ -4,7 +4,18 @@ import "./database";
 
 import Customer from "./app/models/Customer";
 
+//HOOKS
+class Playground {       
+    static async play() {   
+        const customer = await Customer.create({
+            name: "Empresa", email: "contato.com.br"
+        });   
+       console.log(JSON.stringify(customers2, null, 2));
+     } 
+ }
+    Playground.play();
 
+    /*
 //Exclusão(delete)
 class Playground {       
     static async play() {   
@@ -13,7 +24,7 @@ class Playground {
      } 
  }
     Playground.play();
-
+*/
 
 /*
 //UPDATE 
