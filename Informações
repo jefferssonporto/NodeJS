@@ -42,6 +42,9 @@ yarn eslint --fix src --ext .js
 limpar cache do yarn: 
 yarn cache clean
 
+importanção da biblioteca date, metodo paserISo, facilita ler datas e transformar para objetos:
+yarn add date-fns
+
 Esqueleto básico do express
 
 const express = require("express");

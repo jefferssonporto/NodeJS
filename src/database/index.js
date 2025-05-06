@@ -29,6 +29,14 @@ class Database {
             }
         });
     }
+
+    associate() {
+        models.forEach(model => {
+            if (model.associate) {
+                model.associate(this.connection.models);
+            }
+        });
+    }
  }
 
-export default Database;
+export default new Database();
