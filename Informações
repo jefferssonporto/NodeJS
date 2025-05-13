@@ -31,6 +31,8 @@ instalar e executar o Eslint:
 yarn add eslint -D
 yarn eslint --init
 
+biblioteca, valida o schema do request body:
+yarn add yup
 
 Prettier - Garante o embezamento do Códigos
 instar o Prettier:

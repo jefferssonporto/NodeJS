@@ -3,6 +3,7 @@ import Customer from "../models/Custormer";
 import {Op} from "sequelize";
 import { parseISO } from "date-fns";
 import Contact from "../models/Contact";
+import * as  Yup from "yup";
 
 const customers = [
     {
@@ -129,53 +130,76 @@ class CustomersController {
 
 
     //Recupera um registro ou recurso (Customer)
-    show(req, res) {
-        const id = parseInt(req.params.id, 10);
-        const customer = customers.find((item) => item.id === id);
-        const status = customer ? 200 : 404;
+   async show(req, res) {
+        const customer = await Customer.findBypk(req.params.id);  //vai dar um findbyprimary key (ID)
+        
+        if(!customer) {         
+            return res.status(404).json();      // Se não existir um customer ele tem que retornar 404
+        }  
 
-        console.warn("GET :: /customers/:id ", json.stringfy(customer));
-
-        return res.status(status).json(customer);
+        return res.json(customer);
     }
 
     //Cria um novo Customer
-    create(req, res) {
-        const { name, site } = req.body;
-        const id = customers[customers.length - 1].id + 1;
+    async create(req, res) {
+        //req.body
+        /*  cria o schema / const schema = 
+        validar o schema com o req.body */
 
-        const newCustomer = { id, name, site };
-        customers.push(newCustomer);
+        const schema = Yup.object().shape({
+            name: Yup.string().required(),  //primeiro é o tipo do dado (string) e dps as validações.
+            email: Yup.string().email().required(),
+            status: Yup.string().uppercase(), 
+        });
 
-        return res.status(201).json(newCustomer);
+        //validação do schema
+       if (!(await schema.isValid(req.body))) {        //valido com quem, no caso req.body 
+         return res.status(400).json({ error: "Error on validate schema."  })     //Se não for valido (schema), vai fazer alguma outra coisa
+       };  
+
+        const customer = await Customer.create(req.body);
+
+        return res.status(201).json(customer);
     }
 
     //Atualiza um Customer
-    update(req, res) {
-        const id = parseInt(req.params.id, 10);
-        const { name, site } = req.body;
+    async update(req, res) {
+        const schema = Yup.object().shape({
+            name: Yup.string(),
+            email: Yup.string().email(),
+            status: Yup.string().uppercase(), 
+        });
 
-        const index = customers.findIndex((item) => item.id === id);
-        const status = index >= 0 ? 200 : 404;
+        //validação do schema
+       if (!(await schema.isValid(req.body))) {       
+         return res.status(400).json({ error: "Error on validate schema."  })   
+       };  
 
-        if (index >= 0) {
-            customers[index] = { id: parseInt(id, 10), name, site };
-        }
 
-        return res.status(status).json(customers[index]);
+        const customer = await Customer.create(req.body);
+
+        if(!customer) {         
+            return res.status(404).json();      // Se não existir um customer ele tem que retornar 404
+        }  
+
+        await customer.update(req.body); //vai aproveitar tudo que estar no req.body e vai jogar dentro do Customer
+
+        return res.json(customer);
     }
 
     //Exclui um Customer
-    destroy(req, res) {
-        const id = parseInt(req.params.id, 10);
-        const index = customers.findIndex((item) => item.id === id);
-        const status = index >= 0 ? 200 : 404;
+    async destroy(req, res) {
+       //Recupera ele pra ver se exite:
+        const customer = await Customer.findBypk(req.params.id);  
+        
+        if(!customer) {         
+            return res.status(404).json();  
+        }  
 
-        if (index >= 0) {
-            customers.splice(index, 1);
-        }
+        //se ele existe então:
+        await customer.destroy();
 
-        return res.status(status).json();
+        return res.json(); //delete não precisa retornar nada
     }
 }
 
