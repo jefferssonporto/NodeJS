@@ -1,9 +1,8 @@
-
 import Customer from "../models/Custormer";
-import {Op} from "sequelize";
+import { Op } from "sequelize";
 import { parseISO } from "date-fns";
 import Contact from "../models/Contact";
-import * as  Yup from "yup";
+import * as Yup from "yup";
 
 const customers = [
     {
@@ -21,85 +20,88 @@ const customers = [
 
 class CustomersController {
     //Listagem dos resgistros (Customer)
-    async index(req, res) {         //extende a classe models
+    async index(req, res) {
+        //extende a classe models
         const {
             name,
             email,
-            status, 
+            status,
             createdBefore,
             createdAfter,
             updatedBefore,
             updatedAfter,
-            sort,   //campos de ordenação
-        } = req.query;      
+            sort, //campos de ordenação
+        } = req.query;
 
-        const page = req.query.page || 1;       
+        const page = req.query.page || 1;
         const limit = req.query.limit || 25;
 
-            // localhost:3000/customers/?page2&limit=25
-            //250 registros equivalente a 10 paginas
-            // pagina 2 (25 - 50)   (paginação)
-        
-        let where ={};
+        // localhost:3000/customers/?page2&limit=25
+        //250 registros equivalente a 10 paginas
+        // pagina 2 (25 - 50)   (paginação)
+
+        let where = {};
         const order = [];
 
-        if(name) {
+        if (name) {
             where = {
-                ...where,      // Tudo com 3 pontos ele vai concatenar com  o objeto
+                ...where, // Tudo com 3 pontos ele vai concatenar com  o objeto
                 name: {
                     [Op.iLike]: name,
                 },
             };
         }
 
-        if(email) {
+        if (email) {
             where = {
-                ...where,      
+                ...where,
                 email: {
                     [Op.iLike]: email,
                 },
             };
         }
 
-        if(status) {
+        if (status) {
             where = {
-                ...where,      
+                ...where,
                 status: {
-                    [Op.in]: status.split(",").map(item => item.toUpperCase()), //.split("") - transforma em um Array active,archived => ["active", "archived"]
-                },                                              //.map(item => item.toUpperCase() indenpendete do que usuario passar minusculo ou maiusculo
+                    [Op.in]: status
+                        .split(",")
+                        .map((item) => item.toUpperCase()), //.split("") - transforma em um Array active,archived => ["active", "archived"]
+                }, //.map(item => item.toUpperCase() indenpendete do que usuario passar minusculo ou maiusculo
             };
         }
 
-        if(createdBefore) {
+        if (createdBefore) {
             where = {
-                ...where,      
+                ...where,
                 createdAt: {
                     [Op.gte]: parseISO(createdBefore),
                 },
             };
         }
 
-        if(createdAfter) {
+        if (createdAfter) {
             where = {
-                ...where,      
+                ...where,
                 createdAt: {
                     [Op.lte]: parseISO(createdAfter),
                 },
             };
         }
 
-        if(updatedBefore) {
+        if (updatedBefore) {
             where = {
-                ...where,      
+                ...where,
                 updatedAt: {
                     [Op.gte]: parseISO(updatedBefore),
                 },
             };
         }
 
-        if(updatedAfter) {
+        if (updatedAfter) {
             where = {
-                ...where,      
+                ...where,
                 updatedAt: {
                     [Op.lte]: parseISO(updatedAfter),
                 },
@@ -108,34 +110,33 @@ class CustomersController {
 
         console.log(where);
 
-        if(sort) {
-            order = sort.split(",").map(item => item.split(":"));
+        if (sort) {
+            order = sort.split(",").map((item) => item.split(":"));
         }
 
-    const data = await Customer.findAll({
+        const data = await Contact.findAll({
             where,
-            include: [ 
+            include: [
                 {
-                    model: Contact,
+                    model: Customer,
                     attributes: ["id", "status"],
                 },
             ],
             order,
             limit,
-            offset: limit * page - limit, 
-    });
+            offset: limit * page - limit,
+        });
 
         return res.json(data);
     }
 
-
     //Recupera um registro ou recurso (Customer)
-   async show(req, res) {
-        const customer = await Customer.findBypk(req.params.id);  //vai dar um findbyprimary key (ID)
-        
-        if(!customer) {         
-            return res.status(404).json();      // Se não existir um customer ele tem que retornar 404
-        }  
+    async show(req, res) {
+        const customer = await Customer.findBypk(req.params.id); //vai dar um findbyprimary key (ID)
+
+        if (!customer) {
+            return res.status(404).json(); // Se não existir um customer ele tem que retornar 404
+        }
 
         return res.json(customer);
     }
@@ -147,15 +148,16 @@ class CustomersController {
         validar o schema com o req.body */
 
         const schema = Yup.object().shape({
-            name: Yup.string().required(),  //primeiro é o tipo do dado (string) e dps as validações.
+            name: Yup.string().required(), //primeiro é o tipo do dado (string) e dps as validações.
             email: Yup.string().email().required(),
-            status: Yup.string().uppercase(), 
+            status: Yup.string().uppercase(),
         });
 
         //validação do schema
-       if (!(await schema.isValid(req.body))) {        //valido com quem, no caso req.body 
-         return res.status(400).json({ error: "Error on validate schema."  })     //Se não for valido (schema), vai fazer alguma outra coisa
-       };  
+        if (!(await schema.isValid(req.body))) {
+            //valido com quem, no caso req.body
+            return res.status(400).json({ error: "Error on validate schema." }); //Se não for valido (schema), vai fazer alguma outra coisa
+        }
 
         const customer = await Customer.create(req.body);
 
@@ -167,20 +169,19 @@ class CustomersController {
         const schema = Yup.object().shape({
             name: Yup.string(),
             email: Yup.string().email(),
-            status: Yup.string().uppercase(), 
+            status: Yup.string().uppercase(),
         });
 
         //validação do schema
-       if (!(await schema.isValid(req.body))) {       
-         return res.status(400).json({ error: "Error on validate schema."  })   
-       };  
-
+        if (!(await schema.isValid(req.body))) {
+            return res.status(400).json({ error: "Error on validate schema." });
+        }
 
         const customer = await Customer.create(req.body);
 
-        if(!customer) {         
-            return res.status(404).json();      // Se não existir um customer ele tem que retornar 404
-        }  
+        if (!customer) {
+            return res.status(404).json(); // Se não existir um customer ele tem que retornar 404
+        }
 
         await customer.update(req.body); //vai aproveitar tudo que estar no req.body e vai jogar dentro do Customer
 
@@ -189,12 +190,12 @@ class CustomersController {
 
     //Exclui um Customer
     async destroy(req, res) {
-       //Recupera ele pra ver se exite:
-        const customer = await Customer.findBypk(req.params.id);  
-        
-        if(!customer) {         
-            return res.status(404).json();  
-        }  
+        //Recupera ele pra ver se exite:
+        const customer = await Customer.findBypk(req.params.id);
+
+        if (!customer) {
+            return res.status(404).json();
+        }
 
         //se ele existe então:
         await customer.destroy();
