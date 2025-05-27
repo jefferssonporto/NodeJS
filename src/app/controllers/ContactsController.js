@@ -20,7 +20,7 @@ class ContactsController {
         const page = req.query.page || 1;
         const limit = req.query.limit || 25;
 
-        let where = {};
+        let where = { customer_id: req.params.customerId };
         const order = [];
 
         if (name) {
@@ -100,6 +100,7 @@ class ContactsController {
                 {
                     model: Customer,
                     attributes: ["id", "status"],
+                    required: true,
                 },
             ],
             order,
@@ -109,6 +110,86 @@ class ContactsController {
 
         return res.json(data);
     }
+
+    async show(req, res) {
+        const contact = await Contact.findOne({
+            where: {
+                customer_id: req.params.customerId,
+                id: req.params.id,
+            },
+            attributes: { exclude: ["customer_id", "customerId"] },
+        });
+
+        if (!Contact) {
+            return res.status(404).json();
+        }
+
+        return res.json(Contact);
+    }
+
+    async create(req, res) {
+        const schema = Yup.object().shape({
+            name: Yup.string().required(),
+            email: Yup.string().email().required(),
+            status: Yup.string().uppercase(),
+        });
+
+        if (!(await schema.isValid(req.body))) {
+            return res.status(400).json({ error: "Error on validate schema." });
+        }
+
+        const contact = await Contact.create({
+            customer_id: req.params.customerId,
+            ...req.body,
+        });
+
+        return res.status(201).json(contact);
+    }
+
+    async update(req, res) {
+            const schema = Yup.object().shape({
+                name: Yup.string(),
+                email: Yup.string().email(),
+                status: Yup.string().uppercase(),
+            });
+
+            if (!(await schema.isValid(req.body))) {
+                return res.status(400).json({ error: "Error on validate schema." });
+            }
+    
+            const contact = await Contact.findOne(
+               where: {
+                customer_id: req/params/customerId,
+                  id:  req.params.id,
+               },
+                attributes: { exclude: ["customer_id", "customerId"] },
+            );
+    
+            if (!contact) {
+                return res.status(404).json(); 
+            }
+    
+            await contact.update(req.body); 
+
+            return res.json(contact);
+        }
+
+         async destroy(req, res) {
+                const contact = await Contact.findOne({
+            where: {
+                customer_id: req.params.customerId,
+                id: req.params.id,
+            },
+        });
+
+        if (!Contact) {
+            return res.status(404).json();
+        }
+                await customer.destroy();
+        
+                return res.json(); 
+            }
+    
 }
 
-export default ContactsController;
+export default new ContactsController();

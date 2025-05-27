@@ -177,7 +177,7 @@ class CustomersController {
             return res.status(400).json({ error: "Error on validate schema." });
         }
 
-        const customer = await Customer.create(req.body);
+        const customer = await Customer.findBypk(req.body);
 
         if (!customer) {
             return res.status(404).json(); // Se não existir um customer ele tem que retornar 404
