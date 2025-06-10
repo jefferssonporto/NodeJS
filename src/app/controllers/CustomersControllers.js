@@ -114,11 +114,11 @@ class CustomersController {
             order = sort.split(",").map((item) => item.split(":"));
         }
 
-        const data = await Contact.findAll({
+        const data = await Customer.findAll({
             where,
             include: [
                 {
-                    model: Customer,
+                    model: Contact,
                     attributes: ["id", "status"],
                 },
             ],
