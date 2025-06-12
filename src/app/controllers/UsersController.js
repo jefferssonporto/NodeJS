@@ -112,9 +112,13 @@ class UsersController   {
         const schema = Yup.object().shape({
             name: Yup.string().required(), 
             email: Yup.string().email().required(),
-        });
+            .email()
+            .required(),
+            password_hash: Yup.string()
+            .email()
+            .required(),
+         });
 
-       
         if (!(await schema.isValid(req.body))) {
             
             return res.status(400).json({ error: "Error on validate schema." }); 
