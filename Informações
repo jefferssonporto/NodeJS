@@ -44,6 +44,9 @@ yarn eslint --fix src --ext .js
 limpar cache do yarn: 
 yarn cache clean
 
+Biblioteca que tem hashs pré-determinados:
+yarn add bcryptjs
+
 importanção da biblioteca date, metodo paserISo, facilita ler datas e transformar para objetos:
 yarn add date-fns
 

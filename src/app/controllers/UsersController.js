@@ -2,6 +2,7 @@ import { Op } from "sequelize";
 import { parseISO } from "date-fns";
 import * as Yup from "yup";
 import User from "../models/User";
+import { fi } from "date-fns/locale";
 
 class UsersController   {
     async index(req, res)   {
@@ -108,15 +109,18 @@ class UsersController   {
     }
 
 
-    async create(req, res){
+    async create(req, res)  {
         const schema = Yup.object().shape({
             name: Yup.string().required(), 
-            email: Yup.string().email().required(),
+            email: Yup.string().email().required()
             .email()
             .required(),
-            password_hash: Yup.string()
-            .email()
-            .required(),
+            password: Yup.string()
+            .required()
+            .min(8),        //Se o password estiver preenchido, excuto a validação abaixo
+             passwordConfirmation:  Yup.string().when("password", (password, field) => 
+                password ? field.required().oneOf([Yup.ref("password")])    : field
+             ),   //Só serve para gerar um erro de validação.
          });
 
         if (!(await schema.isValid(req.body))) {
@@ -124,15 +128,36 @@ class UsersController   {
             return res.status(400).json({ error: "Error on validate schema." }); 
         }
 
-        const User = await User.create(req.body);
+        const {id, name, email, createdAt, updatedAt} = await User.create(req.body);
 
-        return res.status(201).json(User);
+        return res.status(201).json({id, name, email, createdAt, updatedAt});
     }
 
 
-    async update(eq, res){
+    async update(req, res)  {
+        const schema = Yup.object().shape({
+            name: Yup.string(),
+            email: Yup.string().email(),
+            oldPassword: Yup.string().min(8),
+            password: Yup.string()
+            .min(8).when("oldPassword", (oldPassword, field) => 
+                oldPassword ? field.required()  :   field
+            ),        
+             passwordConfirmation:  Yup.string().when("password", (password, field) => 
+                password ? field.required().oneOf([Yup.ref("password")])    : field
+             ),   //Só serve para gerar um erro de validação.
+         });
 
+        if (!(await schema.isValid(req.body))) {
+            
+            return res.status(400).json({ error: "Error on validate schema." }); 
+        }
+
+        const {id, name, email, createdAt, updatedAt} = await User.create(req.body);
+
+        return res.status(201).json({id, name, email, createdAt, updatedAt});
     }
+    
 
     async destroy(req, res){
 
