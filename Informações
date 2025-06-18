@@ -126,3 +126,4 @@ Middlewares - camada que voce adiciona entre o express e a sua aplicação, real
 Scopos - Consultas que você já deixa pré programadas com nomes.
 
 Hooks -  hooks para agir antes ou depois de ações como create, update, destroy, etc.
+

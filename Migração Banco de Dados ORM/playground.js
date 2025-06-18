@@ -1,8 +1,8 @@
 import {Op} from "sequelize";  //Op de Operação
 
-import "./database";
+import "../src/database";
 
-import Customer from "./app/models/Customer";
+import Customer from "../src/app/models/Customer";
 
 //HOOKS
 class Playground {       

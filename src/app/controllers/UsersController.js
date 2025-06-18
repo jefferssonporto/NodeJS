@@ -105,7 +105,9 @@ class UsersController   {
             return res.status(404).json(); 
         }
 
-        return res.json(User);
+        const {id, name, email, createdAt, updatedAt} = user;
+
+        return res.json({id, name, email, createdAt, updatedAt});
     }
 
 
@@ -153,14 +155,63 @@ class UsersController   {
             return res.status(400).json({ error: "Error on validate schema." }); 
         }
 
-        const {id, name, email, createdAt, updatedAt} = await User.create(req.body);
+        const user = await User.findByPk(req.params.id);
+        if(!user)   {
+            return res.status(404).json();   //Se não existir um usuário correto, significa que não carreguei um usuário correto
+        }
+             
+    const schema = Yup.object().shape({
+            name: Yup.string(),
+            email: Yup.string().email(),
+            oldPassword: Yup.string().min(8),
+            password: Yup.string()
+            .min(8).when("oldPassword", (oldPassword, field) => 
+                oldPassword ? field.required()  :   field
+            ),        
+             passwordConfirmation:  Yup.string().when("password", (password, field) => 
+                password ? field.required().oneOf([Yup.ref("password")])    : field
+             ),   //Só serve para gerar um erro de validação.
+         });
+
+        if (!(await schema.isValid(req.body))) {
+            
+            return res.status(400).json({ error: "Error on validate schema." }); 
+        }
+
+        const user = await User.findByPk(req.params.id);
+        if(!user)   {
+            return res.status(404).json();   //Se não existir um usuário correto, significa que não carreguei um usuário correto
+        }
+         
+    const { oldPassword} = req.body;
+
+    if(oldPassword && ! (await user.checkPassword(oldPassword)))    {
+        return res.status(401).json({error: "User password not match."});
+    }
+
+
+        const {id, name, email, createdAt, updatedAt} = await User.update(req.body);
 
         return res.status(201).json({id, name, email, createdAt, updatedAt});
     }
     
 
-    async destroy(req, res){
+        const {id, name, email, createdAt, updatedAt} = await User.create(req.body);
 
+        return res.status(201).json({id, name, email, createdAt, updatedAt});
+    
+    
+
+    async destroy(req, res) {
+        const user = await User.findByPk(req.params.id);
+
+        if(!User) {
+            return res.status(404).json();
+
+            await user.destroy();
+
+            return res.json();
+        }
     }
 
 }
