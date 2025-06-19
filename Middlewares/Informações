@@ -1,0 +1,7 @@
+Middlewares - São funções com acessos as requisições, respostas e as próximas funções.
+Middlewares - nível de aplicativo, nível de roteador, de manipulação de erros, intergrado e de terceiros.
+Middlewares - autenticação de usuários e controle de uso da API.
+
+Middlewares Globais - atuam antes da gente chegar na rota, ou seja, ele são o intermediário entre o acesso ao recurso e o recurso ser executado.
+
+Middlewares Locais - você aponta em quais recursos você quer o Middlewares execute e ele executa.
