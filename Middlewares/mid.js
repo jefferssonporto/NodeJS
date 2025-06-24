@@ -21,18 +21,39 @@ server.use((req, res, next) => {
     console.timeEnd("timeLogger");
 });
 
-server.use((req, res, next) => {
+/* server.use((req, res, next) => {
     const { name } = req.query;
     if (!name) {
         return res.status(400).json({ error: "name param not found" });
     }
 
     next();
-});
+}); */
 
 //Middlewares Locais
 
-server.get("/hello", (req, res) => {
+const checkNameExists = (req, res, next) => {
+    const { name } = req.query;
+    if (!name) {
+        return res.status(400).json({ error: "name param not found" });
+    }
+
+    next();
+};
+
+const checkUserPermission = (req, res, next) => {
+    const usersAllowed = ["Jefferson", "Julio"];
+    const { name } = req.query;
+    if (!usersAllowed.includes(name)) {
+        return res
+            .status(401)
+            .json({ error: "User not allowed to access this resource " });
+    }
+
+    next();
+};
+
+server.get("/hello", checkNameExists, checkUserPermission, (req, res) => {
     const { name } = req.query;
 
     return res.json({
