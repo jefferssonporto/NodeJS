@@ -5,8 +5,8 @@ import express from "express";
 import Youch from "youch";
 import "express-async-errors";
 
-import authMiddleware from "./app/Middlewares/auth";
-import routes from "./routes";
+import authMiddleware from "./app/middlewares/auth.js";
+import routes from "./routes.js";
 
 import "./database";
 import { next } from "sucrase/dist/types/parser/tokenizer";

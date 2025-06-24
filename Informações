@@ -50,6 +50,10 @@ yarn add bcryptjs
 importanção da biblioteca date, metodo paserISo, facilita ler datas e transformar para objetos:
 yarn add date-fns
 
+Biblioteca Token autenticação:
+yarn add jsonwebtoken
+
+
 Esqueleto básico do express
 
 const express = require("express");
@@ -127,3 +131,6 @@ Scopos - Consultas que você já deixa pré programadas com nomes.
 
 Hooks -  hooks para agir antes ou depois de ações como create, update, destroy, etc.
 
+autenticação de API - Um controle de autenticação de uma API consiste basicamente em limitar alguns recursos (controllers)
+do acesso de estranhos (público).
+Basic Authentication / OAuth 1.0 / O Auth 2.0 / Token JWT (JSON Web Token)

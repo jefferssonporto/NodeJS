@@ -1,5 +1,3 @@
-import { next } from "sucrase/dist/types/parser/tokenizer";
-
 export default (req, res, next) => {
     const authHeader = req.headers.authorization;
 

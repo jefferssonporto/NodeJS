@@ -1,4 +1,4 @@
-import Customer from "../models/Custormer";
+import Customer from "../models/Customer";
 import { Op } from "sequelize";
 import { parseISO } from "date-fns";
 import Contact from "../models/Contact";

@@ -1,10 +1,14 @@
 import { Router } from "express";
 
+import sessions from "./app/controllers/SessionsController";
 import customers from "./app/controllers/CustomersControllers";
 import contacts from "./app/controllers/ContactsController";
 import Users from "./app/controllers/UsersController";
 
 const routes = new Router();
+
+//Sessions
+routes.post("/sessions", sessions.create);
 
 //Customers
 routes.get("/customers", customers.index);

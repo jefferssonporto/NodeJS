@@ -87,133 +87,85 @@ class UsersController   {
         }
 
         const data = await User.findAll({
-            attributes: {exclude: ["password", "password_hash"]},
-            where,
-            order,
-            limit,
-            offset: limit * page - limit,
-        });
+  attributes: {exclude: ["password", "password_hash"]},
+  where,
+  order,
+  limit,
+  offset: limit * page - limit,
+});
 
-        return res.json(data);
-    }
-    }
-
-    async show(req, res) {
-        const User = await User.findBypk(req.params.id); 
-
-        if (!User) {
-            return res.status(404).json(); 
-        }
-
-        const {id, name, email, createdAt, updatedAt} = user;
-
-        return res.json({id, name, email, createdAt, updatedAt});
-    }
-
-
-    async create(req, res)  {
-        const schema = Yup.object().shape({
-            name: Yup.string().required(), 
-            email: Yup.string().email().required()
-            .email()
-            .required(),
-            password: Yup.string()
-            .required()
-            .min(8),        //Se o password estiver preenchido, excuto a validação abaixo
-             passwordConfirmation:  Yup.string().when("password", (password, field) => 
-                password ? field.required().oneOf([Yup.ref("password")])    : field
-             ),   //Só serve para gerar um erro de validação.
-         });
-
-        if (!(await schema.isValid(req.body))) {
-            
-            return res.status(400).json({ error: "Error on validate schema." }); 
-        }
-
-        const {id, name, email, createdAt, updatedAt} = await User.create(req.body);
-
-        return res.status(201).json({id, name, email, createdAt, updatedAt});
-    }
-
-
-    async update(req, res)  {
-        const schema = Yup.object().shape({
-            name: Yup.string(),
-            email: Yup.string().email(),
-            oldPassword: Yup.string().min(8),
-            password: Yup.string()
-            .min(8).when("oldPassword", (oldPassword, field) => 
-                oldPassword ? field.required()  :   field
-            ),        
-             passwordConfirmation:  Yup.string().when("password", (password, field) => 
-                password ? field.required().oneOf([Yup.ref("password")])    : field
-             ),   //Só serve para gerar um erro de validação.
-         });
-
-        if (!(await schema.isValid(req.body))) {
-            
-            return res.status(400).json({ error: "Error on validate schema." }); 
-        }
-
-        const user = await User.findByPk(req.params.id);
-        if(!user)   {
-            return res.status(404).json();   //Se não existir um usuário correto, significa que não carreguei um usuário correto
-        }
-             
-    const schema = Yup.object().shape({
-            name: Yup.string(),
-            email: Yup.string().email(),
-            oldPassword: Yup.string().min(8),
-            password: Yup.string()
-            .min(8).when("oldPassword", (oldPassword, field) => 
-                oldPassword ? field.required()  :   field
-            ),        
-             passwordConfirmation:  Yup.string().when("password", (password, field) => 
-                password ? field.required().oneOf([Yup.ref("password")])    : field
-             ),   //Só serve para gerar um erro de validação.
-         });
-
-        if (!(await schema.isValid(req.body))) {
-            
-            return res.status(400).json({ error: "Error on validate schema." }); 
-        }
-
-        const user = await User.findByPk(req.params.id);
-        if(!user)   {
-            return res.status(404).json();   //Se não existir um usuário correto, significa que não carreguei um usuário correto
-        }
-         
-    const { oldPassword} = req.body;
-
-    if(oldPassword && ! (await user.checkPassword(oldPassword)))    {
-        return res.status(401).json({error: "User password not match."});
-    }
-
-
-        const {id, name, email, createdAt, updatedAt} = await User.update(req.body);
-
-        return res.status(201).json({id, name, email, createdAt, updatedAt});
-    }
-    
-
-        const {id, name, email, createdAt, updatedAt} = await User.create(req.body);
-
-        return res.status(201).json({id, name, email, createdAt, updatedAt});
-    
-    
-
-    async destroy(req, res) {
-        const user = await User.findByPk(req.params.id);
-
-        if(!User) {
-            return res.status(404).json();
-
-            await user.destroy();
-
-            return res.json();
-        }
-    }
-
+return res.json(data);
 }
+
+async show(req, res) {
+  const user = await User.findByPk(req.params.id); 
+
+  if (!user) {
+    return res.status(404).json();
+  }
+
+  const { id, name, email, createdAt, updatedAt } = user;
+
+  return res.json({ id, name, email, createdAt, updatedAt });
+}
+
+
+async create(req, res)  {
+  const schema = Yup.object().shape({
+    name: Yup.string().required(), 
+    email: Yup.string().email().required(),
+    password: Yup.string().required().min(8),        
+    passwordConfirmation: Yup.string().when("password", (password, field) => 
+      password ? field.required().oneOf([Yup.ref("password")]) : field
+    ),
+  });
+ }
+  async update(req, res)  {
+    const schema = Yup.object().shape({
+      name: Yup.string(),
+      email: Yup.string().email(),
+      oldPassword: Yup.string().min(8),
+      password: Yup.string().min(8).when("oldPassword", (oldPassword, field) => 
+        oldPassword ? field.required() : field
+      ),        
+      passwordConfirmation: Yup.string().when("password", (password, field) => 
+        password ? field.required().oneOf([Yup.ref("password")]) : field
+      ),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: "Error on validate schema." }); 
+    }
+
+    const user = await User.findByPk(req.params.id);
+
+    if (!user) {
+      return res.status(404).json();
+    }
+
+    const { oldPassword } = req.body;
+
+    if (oldPassword && !(await user.checkPassword(oldPassword))) {
+      return res.status(401).json({ error: "User password does not match." });
+    }
+
+    const { id, name, email, createdAt, updatedAt } = await user.update(req.body);
+
+    return res.json({ id, name, email, createdAt, updatedAt });
+  }
+
+  async destroy(req, res) {
+    const user = await User.findByPk(req.params.id);
+
+    if (!user) {
+      return res.status(404).json();
+    }
+
+    await user.destroy();
+
+    return res.json();
+  }
+}
+
 
 export default new UsersController(); 
