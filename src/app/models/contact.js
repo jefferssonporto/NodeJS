@@ -14,6 +14,7 @@ class Contact extends Model {
                 status: Sequelize.ENUM("ACTIVE", "ARCHIVED"),
             },
             {
+                sequelize,
                 tableName: "contacts", // define o nome da tabela
                 name: {
                     singular: "contact",

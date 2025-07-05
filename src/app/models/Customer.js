@@ -10,34 +10,36 @@ class Customer extends Model {
             email: Sequelize.STRING,
             status: Sequelize.ENUM("ACTIVE", "ARCHIVED"),    
         },
+
         {
             scopes: {    //Criando um Scopo
                 active: {
                     where: {
-                        status: "ACTIVE"
+                        status: "ACTIVE",
                     },
-                    order: ["createdAt"],
+                     order: [["createdAt", "ASC"]],
                 },
 
                 Jefferson: {
                     where: {
-                        name: "Dev Jefferson"
+                        name: "Dev Jefferson",
                     },
                 },
 
-               created(date){   //Passar parametros no scopo, como se fosse uma função
-                return {
+               created: (date) => ({   //Passar parametros no scopo, como se fosse uma função                
                     where: {
                         createdAt:{
                             [Op.gte]:  date,
-                        }
-                    }
-                }
-               } 
+                        },
+                    },
+                }),
             },
+
             hooks: {
                 beforeValidate: (customer, options) => {
-                    customer.status = "ARCHIVED";
+                    if (!customer.status) {
+              customer.status = "ARCHIVED";
+                    }
                 },
             },
 
@@ -45,13 +47,12 @@ class Customer extends Model {
             name: {
                 singular: "customer",
                 plural: "customers",
-            }
+            },
         }
      );
-    }
+    },
     static associate(models) {
         this.hasMany(models.Contact);  //usado para definir um relacionamento de um-para-muitos entre modelos (tabelas).
     }
-}
-
+ } 
 export default Customer;

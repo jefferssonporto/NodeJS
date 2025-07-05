@@ -1,4 +1,4 @@
-import "./database/index.js";
+
 
 export default {
     dialect: "postgres",

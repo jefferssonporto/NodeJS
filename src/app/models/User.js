@@ -30,8 +30,8 @@ class User extends Model {
         });
     }
 
-    checkPassword(password) {
-        return bcrypt.compare(password, this.password_hash); //Etapa que compara onde a senha que o usuário digitou é a mesma que a do banco
+    async checkPassword(password) {
+        return await bcrypt.compare(password, this.password_hash); //Etapa que compara onde a senha que o usuário digitou é a mesma que a do banco
     }
 }
 
