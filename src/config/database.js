@@ -1,6 +1,6 @@
 import "./database/index.js";
 
-module.exports = {
+export default {
     dialect: "postgres",
     host: "localhost", //Aonde seu postgres está rodando
     username: "postgres", //Usuário que você utiliza para conectar no postgres

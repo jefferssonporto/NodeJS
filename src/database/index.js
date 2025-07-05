@@ -2,11 +2,11 @@
 
 import Sequelize from "sequelize";
 
-import config from "../config/database";
+import config from "../config/database.js";
 
-import Customer from "../app/models/Customer";
-import Contact from "../app/models/Contact";
-import User from "../app/models/User";
+import Customer from "../app/models/Customer.js";
+import Contact from "../app/models/Contact.js";
+import User from "../app/models/User.js";
 
 const models = [Customer, Contact, User]; //models
 

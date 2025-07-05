@@ -8,8 +8,7 @@ import "express-async-errors";
 import authMiddleware from "./app/middlewares/auth.js";
 import routes from "./routes.js";
 
-import "./database";
-import { next } from "sucrase/dist/types/parser/tokenizer";
+import "./database/index.js";
 
 //As classes onde vai conter a lógica
 class App {
@@ -36,6 +35,7 @@ class App {
                 const errors = await new Youch(err, req).toJSON();
                 return res.status(500).json(errors);
             }
+            return res.status(500).json({ error: "Internal server error" });
         });
     }
 }

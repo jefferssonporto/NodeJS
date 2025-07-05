@@ -1,7 +1,6 @@
 {
   "name": "dominando-node",
   "version": "1.0.0",
-  "type": "module",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
@@ -32,6 +31,6 @@
     "sucrase": "^3.35.0"
   },
   "scripts": {
-    "dev": "cross-env nodemon --exec node -r sucrase/register src/server.js"
+    "dev":"nodemon src/server.js"
   }
 }
