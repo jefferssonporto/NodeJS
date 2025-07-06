@@ -4,11 +4,15 @@ import sessions from "./app/controllers/SessionsController";
 import customers from "./app/controllers/CustomersControllers";
 import contacts from "./app/controllers/ContactsController";
 import Users from "./app/controllers/UsersController";
+import auth from "./app/Middlewares/auth";
 
 const routes = new Router();
 
 //Sessions
 routes.post("/sessions", sessions.create);
+
+//Controla o acesso a partir desse ponto
+routes.use(auth);
 
 //Customers
 routes.get("/customers", customers.index);
